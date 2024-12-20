@@ -1,0 +1,5 @@
+Flask
+pytest
+python-dateutil
+requests
+python-dotenv

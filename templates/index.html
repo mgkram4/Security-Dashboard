@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Operations Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Security Operations Center</h1>
+        </header>
+
+        <div class="grid-container">
+            <!-- Defense Status -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Defense Status</h2>
+                </div>
+                <div class="card-content">
+                    <div class="status-item">
+                        <span>Firewall</span>
+                        <span class="status-active">{{ system_status.firewall_status }}</span>
+                    </div>
+                    <div class="status-item">
+                        <span>IDS/IPS</span>
+                        <span class="status-active">{{ system_status.ids_status }}</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Last Scan</span>
+                        <span>{{ system_status.last_scan }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Threats -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Active Threats</h2>
+                </div>
+                <div class="card-content">
+                    {% for threat in threats %}
+                    <div class="alert alert-{{ threat.severity.lower() }}">
+                        <div class="alert-header">
+                            <span>{{ threat.type }}</span>
+                            <span class="badge badge-{{ threat.severity.lower() }}">{{ threat.severity }}</span>
+                        </div>
+                        <div class="alert-content">
+                            Source IP: {{ threat.source_ip }}
+                            {% if threat.details %}
+                            <br>Details: {{ threat.details }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- System Metrics -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>System Metrics</h2>
+                </div>
+                <div class="card-content">
+                    <div class="status-item">
+                        <span>Vulnerabilities</span>
+                        <span class="status-warning">{{ system_status.vulnerabilities }}</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Patch Status</span>
+                        <span class="status-success">{{ system_status.patch_status }}</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Active Incidents</span>
+                        <span>{{ incidents|length }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Incidents -->
+        <div class="card full-width">
+            <div class="card-header">
+                <h2>Active Incidents</h2>
+            </div>
+            <div class="card-content">
+                <table class="incidents-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for incident in incidents %}
+                        <tr>
+                            <td>{{ incident.id }}</td>
+                            <td>{{ incident.type }}</td>
+                            <td>
+                                <span class="badge badge-{{ incident.severity.lower() }}">
+                                    {{ incident.severity }}
+                                </span>
+                            </td>
+                            <td>{{ incident.status }}</td>
+                            <td>{{ incident.created }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
