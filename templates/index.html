@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Security Operations Center</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="container">
@@ -61,19 +61,47 @@
             <div class="card">
                 <div class="card-header">
                     <h2>System Metrics</h2>
+                    <span class="last-update">Last update: <span id="lastUpdate"></span></span>
                 </div>
                 <div class="card-content">
-                    <div class="status-item">
-                        <span>Vulnerabilities</span>
-                        <span class="status-warning">{{ system_status.vulnerabilities }}</span>
-                    </div>
-                    <div class="status-item">
-                        <span>Patch Status</span>
-                        <span class="status-success">{{ system_status.patch_status }}</span>
-                    </div>
-                    <div class="status-item">
-                        <span>Active Incidents</span>
-                        <span>{{ incidents|length }}</span>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">CPU Load</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="cpuBar"></div>
+                                <span class="progress-text" id="cpuText"></span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Memory Usage</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="memoryBar"></div>
+                                <span class="progress-text" id="memoryText"></span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Network Load</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="networkBar"></div>
+                                <span class="progress-text" id="networkText"></span>
+                            </div>
+                        </div>
+                        <div class="status-item">
+                            <span>Blocked IPs</span>
+                            <span class="status-danger" id="blockedIPs"></span>
+                        </div>
+                        <div class="status-item">
+                            <span>Total Attacks</span>
+                            <span class="status-warning" id="totalAttacks"></span>
+                        </div>
+                        <div class="status-item">
+                            <span>Vulnerabilities</span>
+                            <span class="status-warning" id="vulnerabilities"></span>
+                        </div>
+                        <div class="status-item">
+                            <span>Patch Status</span>
+                            <span class="status-info" id="patchStatus"></span>
+                        </div>
                     </div>
                 </div>
             </div>
